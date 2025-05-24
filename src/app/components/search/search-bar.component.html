@@ -1,0 +1,7 @@
+<form (ngSubmit)="onSearch()" class="search-form">
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search Wikipedia</mat-label>
+    <input matInput [formControl]="searchControl" placeholder="Enter search term" />
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit" [disabled]="!searchControl.value?.trim()">Search</button>
+</form>
