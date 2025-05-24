@@ -1,0 +1,49 @@
+<div class="results-container">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p class="loading-text">Searching Wikipedia...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading" class="error-container">
+    <mat-icon class="error-icon">error_outline</mat-icon>
+    <h3>Something went wrong</h3>
+    <p class="error-message">{{ error }}</p>
+  </div>
+
+  <!-- No Results State -->
+  <div *ngIf="hasSearched && !isLoading && !error && results.length === 0" class="no-results-container">
+    <mat-icon class="no-results-icon">search_off</mat-icon>
+    <h3>No results found</h3>
+    <p>Try adjusting your search terms or check spelling.</p>
+  </div>
+
+  <!-- Results List -->
+  <div *ngIf="!isLoading && !error && results.length > 0" class="results-list">
+    <h2 class="results-header">Search Results ({{ results.length }})</h2>
+    
+    <mat-card 
+      *ngFor="let result of results; trackBy: trackByUrl" 
+      class="result-card">
+      <mat-card-header>
+        <mat-card-title class="result-title">{{ result.title }}</mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <p class="result-description">{{ result.description }}</p>
+      </mat-card-content>
+      
+      <mat-card-actions align="end">
+        <button 
+          mat-button 
+          color="primary"
+          (click)="openArticle(result.url)"
+          aria-label="Read full article">
+          <mat-icon>open_in_new</mat-icon>
+          Read Article
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

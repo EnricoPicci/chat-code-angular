@@ -1,0 +1,39 @@
+<div class="wikipedia-search-page">
+  <!-- Header -->
+  <mat-toolbar color="primary" class="app-header">
+    <mat-icon class="header-icon">search</mat-icon>
+    <span class="app-title">Wikipedia Search</span>
+  </mat-toolbar>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Search Section -->
+    <section class="search-section">
+      <div class="search-intro">
+        <h1>Search Wikipedia Articles</h1>
+        <p>Discover knowledge from millions of Wikipedia articles</p>
+      </div>
+      
+      <app-search-bar 
+        (searchTermChanged)="onSearchTermChanged($event)"
+        aria-label="Search for Wikipedia articles">
+      </app-search-bar>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section">
+      <app-results-list
+        [results]="searchState.results"
+        [isLoading]="searchState.isLoading"
+        [error]="searchState.error"
+        [hasSearched]="searchState.hasSearched"
+        aria-label="Search results">
+      </app-results-list>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Powered by <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer">Wikipedia API</a></p>
+  </footer>
+</div>

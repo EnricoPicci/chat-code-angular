@@ -1,0 +1,30 @@
+<div class="search-container">
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search Wikipedia</mat-label>
+    <input 
+      matInput 
+      [formControl]="searchControl"
+      (keypress)="onKeyPress($event)"
+      placeholder="Enter search term..."
+      aria-label="Search Wikipedia articles">
+    <button 
+      matSuffix 
+      mat-icon-button 
+      *ngIf="searchControl.value" 
+      (click)="clearSearch()"
+      aria-label="Clear search">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </mat-form-field>
+  
+  <button 
+    mat-raised-button 
+    color="primary" 
+    (click)="onSearch()"
+    [disabled]="!searchControl.value?.trim()"
+    class="search-button"
+    aria-label="Search">
+    <mat-icon>search</mat-icon>
+    Search
+  </button>
+</div>
