@@ -3,90 +3,39 @@
 ## Component Dependencies and Data Flow
 
 ```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor': '#FFFFFF', 'primaryTextColor': '#000000', 'primaryBorderColor': '#424242', 'lineColor': '#424242', 'sectionBkgColor': '#F5F5F5', 'altSectionBkgColor': '#E0E0E0', 'gridColor': '#BDBDBD'}}}%%
 graph TB
     %% Main Application Structure
-    AppComponent["`**AppComponent**
-    *Root Component*
-    - RouterOutlet`"]
+    AppComponent["AppComponent<br/>Root Component<br/>- RouterOutlet"]
     
-    AppRoutes["`**App Routes**
-    *Routing Configuration*
-    - / → /search
-    - /search → WikipediaSearchComponent
-    - /** → /search`"]
+    AppRoutes["App Routes<br/>Routing Configuration<br/>- / → /search<br/>- /search → WikipediaSearchComponent<br/>- /** → /search"]
     
-    AppConfig["`**App Config**
-    *Application Configuration*
-    - HTTP Client Provider
-    - Router Provider
-    - Animations Provider`"]
+    AppConfig["App Config<br/>Application Configuration<br/>- HTTP Client Provider<br/>- Router Provider<br/>- Animations Provider"]
 
     %% Main Page Component
-    WikipediaSearchComponent["`**WikipediaSearchComponent**
-    *Main Page Component*
-    - searchState: SearchState
-    - onSearchTermChanged()
-    - searchArticles()
-    - ngOnDestroy()`"]
+    WikipediaSearchComponent["WikipediaSearchComponent<br/>Main Page Component<br/>- searchState: SearchState<br/>- onSearchTermChanged()<br/>- searchArticles()<br/>- ngOnDestroy()"]
 
     %% Child Components
-    SearchBarComponent["`**SearchBarComponent**
-    *Search Input Component*
-    - searchControl: FormControl
-    - @Output searchTermChanged
-    - onSearch()
-    - onKeyPress()
-    - clearSearch()`"]
+    SearchBarComponent["SearchBarComponent<br/>Search Input Component<br/>- searchControl: FormControl<br/>- @Output searchTermChanged<br/>- onSearch()<br/>- onKeyPress()<br/>- clearSearch()"]
 
-    ResultsListComponent["`**ResultsListComponent**
-    *Results Display Component*
-    - @Input results
-    - @Input isLoading
-    - @Input error
-    - @Input hasSearched
-    - openArticle()
-    - trackByUrl()`"]
+    ResultsListComponent["ResultsListComponent<br/>Results Display Component<br/>- @Input results<br/>- @Input isLoading<br/>- @Input error<br/>- @Input hasSearched<br/>- openArticle()<br/>- trackByUrl()"]
 
     %% Services
-    WikipediaService["`**WikipediaService**
-    *API Service*
-    - searchArticles()
-    - transformApiResponse()
-    - stripHtmlTags()`"]
+    WikipediaService["WikipediaService<br/>API Service<br/>- searchArticles()<br/>- transformApiResponse()<br/>- stripHtmlTags()"]
 
     %% Models/Interfaces
-    WikipediaModels["`**Wikipedia Models**
-    *Type Definitions*
-    - WikipediaSearchResult
-    - WikipediaApiResponse
-    - SearchState`"]
+    WikipediaModels["Wikipedia Models<br/>Type Definitions<br/>- WikipediaSearchResult<br/>- WikipediaApiResponse<br/>- SearchState"]
 
     %% External Dependencies
-    HttpClient["`**HttpClient**
-    *Angular HTTP Client*
-    - HTTP requests to Wikipedia API`"]
+    HttpClient["HttpClient<br/>Angular HTTP Client<br/>- HTTP requests to Wikipedia API"]
 
-    WikipediaAPI["`**Wikipedia API**
-    *External REST API*
-    - en.wikipedia.org/w/api.php`"]
+    WikipediaAPI["Wikipedia API<br/>External REST API<br/>- en.wikipedia.org/w/api.php"]
 
     %% Angular Material Components
-    MaterialComponents["`**Angular Material**
-    *UI Components*
-    - MatToolbar
-    - MatFormField
-    - MatInput
-    - MatButton
-    - MatIcon
-    - MatCard
-    - MatProgressSpinner`"]
+    MaterialComponents["Angular Material<br/>UI Components<br/>- MatToolbar<br/>- MatFormField<br/>- MatInput<br/>- MatButton<br/>- MatIcon<br/>- MatCard<br/>- MatProgressSpinner"]
 
     %% RxJS Operators
-    RxJSOperators["`**RxJS Operators**
-    *Reactive Programming*
-    - map, catchError
-    - takeUntil, Subject
-    - Observable patterns`"]
+    RxJSOperators["RxJS Operators<br/>Reactive Programming<br/>- map, catchError<br/>- takeUntil, Subject<br/>- Observable patterns"]
 
     %% Relationships and Dependencies
     AppComponent --> AppRoutes
@@ -108,13 +57,12 @@ graph TB
     WikipediaService --> RxJSOperators
     
     HttpClient --> WikipediaAPI
-    
-    %% Styling
-    classDef component fill:#e1f5fe,stroke:#0277bd,stroke-width:2px
-    classDef service fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    classDef model fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
-    classDef external fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
-    classDef config fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+      %% Styling with high contrast for better readability
+    classDef component fill:#2196F3,stroke:#0D47A1,stroke-width:3px,color:#FFFFFF
+    classDef service fill:#9C27B0,stroke:#4A148C,stroke-width:3px,color:#FFFFFF
+    classDef model fill:#4CAF50,stroke:#1B5E20,stroke-width:3px,color:#FFFFFF
+    classDef external fill:#FF9800,stroke:#E65100,stroke-width:3px,color:#FFFFFF
+    classDef config fill:#E91E63,stroke:#880E4F,stroke-width:3px,color:#FFFFFF
 
     class AppComponent,WikipediaSearchComponent,SearchBarComponent,ResultsListComponent component
     class WikipediaService service
