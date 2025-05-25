@@ -1,0 +1,45 @@
+<div class="wiki-card" [attr.aria-label]="'Wikipedia article: ' + article.title">
+    <div class="card-header">
+        <h3 class="article-title">
+            <a [href]="getArticleUrl(article.pageid)" target="_blank" rel="noopener noreferrer"
+                [attr.aria-label]="'Read ' + article.title + ' on Wikipedia'" class="title-link">
+                {{ article.title }}
+            </a>
+        </h3>
+        <div class="article-meta">
+            <span class="last-updated" [attr.title]="'Last updated: ' + article.timestamp">
+                {{ formatDate(article.timestamp) }}
+            </span>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <p class="article-snippet" [innerHTML]="cleanSnippet(article.snippet)"></p>
+    </div>
+
+    <div class="card-footer">
+        <div class="article-stats">
+            <span class="stat-item" [attr.title]="'Article size'">
+                <span class="stat-icon" aria-hidden="true">📄</span>
+                {{ formatSize(article.size) }}
+            </span>
+            <span class="stat-item" [attr.title]="'Word count'">
+                <span class="stat-icon" aria-hidden="true">📝</span>
+                {{ formatWordCount(article.wordcount) }}
+            </span>
+            <span class="stat-item" [attr.title]="'Page ID'">
+                <span class="stat-icon" aria-hidden="true">🔗</span>
+                #{{ article.pageid }}
+            </span>
+        </div>
+        <div class="card-actions">
+            <a [href]="getArticleUrl(article.pageid)" target="_blank" rel="noopener noreferrer" class="read-more-btn"
+                [attr.aria-label]="'Read full article: ' + article.title">
+                Read More
+                <span aria-hidden="true">→</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+

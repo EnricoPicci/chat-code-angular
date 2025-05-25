@@ -2,7 +2,7 @@
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "github.copilot.chat.codeGeneration.instructions": [
     {
-      "file": "code-generation.ng-19.instructions.md"
+      "file": ".github/instructions/scode-generation.ng-19.instructions.md"
     }
   ],
   "github.copilot.chat.testGeneration.instructions": [
