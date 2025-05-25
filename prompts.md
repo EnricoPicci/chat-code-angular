@@ -17,3 +17,11 @@ Add also a test for this API. Do not use mocks for the test but use the real API
 ## Step 3: Create WikiCardComponent
 
 Create WikiCard component, which is a component that shows a single Wikipedia article as a card in the list. A Wikipedia article is an object described the the interface WikipediaSearchResult - it will be used by the WikiList component to build the grid of retrieved articles.
+
+## Step 4: Create WikiListComponent
+
+Create WikiList component, which is a component that shows a list of Wikipedia articles as cards.
+It will use the WikiCard component to show each article in the list.
+The component has a search field that allows the user to search for articles by a search term.
+The component has a button that allows the user to fetch the articles from the Wikipedia API.
+The click event of the button should call the WikiService to fetch the articles.
