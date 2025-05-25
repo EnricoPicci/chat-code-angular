@@ -1,0 +1,127 @@
+<div class="wiki-list-container">
+  <!-- Header Section -->
+  <div class="search-header">
+    <h1 class="page-title">Wikipedia Article Search</h1>
+    <p class="page-description">Search and explore Wikipedia articles</p>
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <div class="search-input-group">
+      <label for="search-input" class="sr-only">Search Wikipedia articles</label>
+      <input
+        id="search-input"
+        type="text"
+        class="search-input"
+        placeholder="Enter search term (e.g., Angular, TypeScript, JavaScript)"
+        [(ngModel)]="searchTerm"
+        (keypress)="onSearchKeyPress($event)"
+        [disabled]="isLoading"
+        maxlength="100"
+        autocomplete="off"
+      />
+      <div class="search-buttons">
+        <button
+          type="button"
+          class="search-btn"
+          (click)="searchArticles()"
+          [disabled]="isLoading || !searchTerm.trim()"
+          [attr.aria-label]="'Search for ' + searchTerm + ' articles'"
+        >
+          <span class="btn-icon" aria-hidden="true">🔍</span>
+          <span class="btn-text">{{ isLoading ? 'Searching...' : 'Search' }}</span>
+        </button>
+        <button
+          type="button"
+          class="clear-btn"
+          (click)="clearSearch()"
+          [disabled]="isLoading"
+          *ngIf="hasSearched"
+          aria-label="Clear search results"
+        >
+          <span class="btn-icon" aria-hidden="true">✕</span>
+          <span class="btn-text">Clear</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div class="loading-section" *ngIf="isLoading" role="status" aria-live="polite">
+    <div class="loading-spinner" aria-hidden="true"></div>
+    <p class="loading-text">Searching Wikipedia articles...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div class="error-section" *ngIf="errorMessage && !isLoading" role="alert" aria-live="assertive">
+    <div class="error-card">
+      <span class="error-icon" aria-hidden="true">⚠️</span>
+      <p class="error-message">{{ errorMessage }}</p>
+    </div>
+  </div>
+
+  <!-- Results Section -->
+  <div class="results-section" *ngIf="!isLoading && !errorMessage && hasSearched">
+    <!-- Results Header -->
+    <div class="results-header" *ngIf="articles.length > 0">
+      <h2 class="results-title">
+        Found {{ articles.length }} article{{ articles.length === 1 ? '' : 's' }} for "{{ searchTerm }}"
+      </h2>
+      <p class="results-description">Click on any article to read more on Wikipedia</p>
+    </div>
+
+    <!-- Articles Grid -->
+    <div class="articles-grid" *ngIf="articles.length > 0" role="region" aria-label="Search results">
+      <app-wiki-card
+        *ngFor="let article of articles; trackBy: trackByPageId"
+        [article]="article"
+        class="article-card-wrapper"
+      ></app-wiki-card>
+    </div>
+
+    <!-- No Results Message -->
+    <div class="no-results" *ngIf="articles.length === 0 && !errorMessage">
+      <div class="no-results-card">
+        <span class="no-results-icon" aria-hidden="true">📄</span>
+        <h3 class="no-results-title">No articles found</h3>
+        <p class="no-results-message">
+          We couldn't find any Wikipedia articles matching "{{ searchTerm }}". 
+          Try a different search term or check your spelling.
+        </p>
+        <button
+          type="button"
+          class="try-again-btn"
+          (click)="clearSearch()"
+          aria-label="Clear search and try again"
+        >
+          Try Again
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Welcome Message (before first search) -->
+  <div class="welcome-section" *ngIf="!hasSearched && !isLoading">
+    <div class="welcome-card">
+      <span class="welcome-icon" aria-hidden="true">🔍</span>
+      <h2 class="welcome-title">Welcome to Wikipedia Search</h2>
+      <p class="welcome-message">
+        Enter a search term above to discover and explore Wikipedia articles. 
+        You can search for topics like programming languages, technologies, or any subject of interest.
+      </p>
+      <div class="welcome-examples">
+        <p class="examples-label">Popular searches:</p>
+        <div class="example-tags">
+          <button
+            type="button"
+            class="example-tag"
+            (click)="searchTerm = example; searchArticles()"
+            *ngFor="let example of ['Angular', 'TypeScript', 'JavaScript', 'Python', 'React']"
+          >
+            {{ example }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
