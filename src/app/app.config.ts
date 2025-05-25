@@ -6,11 +6,13 @@ import {
 } from '@angular/common/http';
 
 import { routes } from './app.routes';
+import { WikiService } from './services/wiki.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
+    WikiService,
   ],
 };
