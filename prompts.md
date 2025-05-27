@@ -29,3 +29,14 @@ The click event of the button should call the WikiService to fetch the articles.
 ## Step 5: set WikiListComponent as the main component loaded by the app at the start
 
 add WikiList as the page loaded at the start of the application
+
+## Step 6: Generate a WikiSummaryComponent
+Create WikiSummary component, which is a component that shows the summary of a Wikipedia article.
+The component will have to show a summary of the article and also all the other information that is available in the WikipediaSearchResult object.
+Add a "Summary" button to the WikiCard component that will navigate to the WikiSummary component when clicked.
+The retrival of the summary from the WikiService should be done in the WikiSummary component.
+When the WikiSummary component is loaded, it should:
+- subscribe to an Observable exposed by the WikiService that will emit the article selected by the user.
+- call the WikiService to fetch the summary of the article.
+- show the summary in the component.
+Since the mechanism to pass the selected article is reactive, there is no need to pass the article as a parameter to the WikiSummary using the router.

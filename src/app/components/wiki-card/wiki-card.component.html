@@ -31,8 +31,17 @@
                 <span class="stat-icon" aria-hidden="true">🔗</span>
                 #{{ article.pageid }}
             </span>
-        </div>
+        </div>        
         <div class="card-actions">
+            <button
+                type="button"
+                class="summary-btn"
+                (click)="viewSummary()"
+                [attr.aria-label]="'View summary of ' + article.title"
+            >
+                <span class="btn-icon" aria-hidden="true">📋</span>
+                <span class="btn-text">Summary</span>
+            </button>
             <a [href]="getArticleUrl(article.pageid)" target="_blank" rel="noopener noreferrer" class="read-more-btn"
                 [attr.aria-label]="'Read full article: ' + article.title">
                 Read More

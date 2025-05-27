@@ -1,14 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { WikiCardComponent } from './wiki-card.component';
-import { WikipediaSearchResult } from '../../services/wiki.service';
-import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
+import { WikiCardComponent } from './wiki-card.component';
+import { WikiService } from '../../services/wiki.service';
 
 describe('WikiCardComponent', () => {
   let component: WikiCardComponent;
   let fixture: ComponentFixture<WikiCardComponent>;
+  let wikiService: WikiService;
 
-  const mockArticle: WikipediaSearchResult = {
+  const mockArticle = {
     title: 'Angular (web framework)',
     snippet:
       'Angular is a <span class="searchmatch">TypeScript</span>-based web application framework led by the Angular Team at Google',
@@ -17,15 +20,23 @@ describe('WikiCardComponent', () => {
     wordcount: 3500,
     timestamp: '2023-12-15T10:30:00Z',
   };
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WikiCardComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(WikiCardComponent);
+      imports: [
+        WikiCardComponent,
+      ],      providers: [
+        WikiService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([]),
+      ],
+    }).compileComponents();    fixture = TestBed.createComponent(WikiCardComponent);
     component = fixture.componentInstance;
+    wikiService = TestBed.inject(WikiService);
+
+    // Set up mock article data
     component.article = mockArticle;
+
     fixture.detectChanges();
   });
 
@@ -189,7 +200,7 @@ describe('WikiCardComponent', () => {
 
   describe('Component State Changes', () => {
     it('should update display when article input changes', () => {
-      const newArticle: WikipediaSearchResult = {
+      const newArticle = {
         title: 'TypeScript',
         snippet: 'TypeScript is a programming language',
         pageid: 67890,
@@ -217,7 +228,7 @@ describe('WikiCardComponent', () => {
 
   describe('Edge Cases', () => {
     it('should handle article with minimal data', () => {
-      const minimalArticle: WikipediaSearchResult = {
+      const minimalArticle = {
         title: 'Test',
         snippet: '',
         pageid: 1,
@@ -240,7 +251,7 @@ describe('WikiCardComponent', () => {
     });
 
     it('should handle special characters in title', () => {
-      const specialArticle: WikipediaSearchResult = {
+      const specialArticle = {
         title: 'C++ & "Programming" <Language>',
         snippet: 'A programming language',
         pageid: 999,

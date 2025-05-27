@@ -1,0 +1,161 @@
+<!-- Main container -->
+<div class="wiki-summary-container">
+  <!-- Header Section -->
+  <div class="summary-header">
+    <button
+      type="button"
+      class="back-btn"
+      (click)="goBack()"
+      aria-label="Go back to search results"
+    >
+      <span class="back-icon" aria-hidden="true">←</span>
+      <span class="back-text">Back to Search</span>
+    </button>
+    
+    <h1 class="page-title">Article Summary</h1>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div class="loading-section" *ngIf="isLoading" role="status" aria-live="polite">
+    <div class="loading-spinner" aria-hidden="true"></div>
+    <p class="loading-text">Loading article summary...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div class="error-section" *ngIf="errorMessage && !isLoading" role="alert" aria-live="assertive">
+    <div class="error-card">
+      <span class="error-icon" aria-hidden="true">⚠️</span>
+      <div class="error-content">
+        <h3 class="error-title">Unable to Load Summary</h3>
+        <p class="error-message">{{ errorMessage }}</p>        <button
+          type="button"
+          class="retry-btn"
+          (click)="fetchSummary(selectedArticle!.title)"
+          *ngIf="selectedArticle"
+        >
+          Try Again
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Article Summary Content -->
+  <div class="summary-content" *ngIf="!isLoading && !errorMessage && selectedArticle && summary">
+    <!-- Article Header -->
+    <div class="article-header">
+      <div class="article-image" *ngIf="summary.thumbnail">
+        <img
+          [src]="summary.thumbnail.source"
+          [alt]="'Thumbnail for ' + summary.title"
+          class="thumbnail-image"
+        />
+      </div>
+      
+      <div class="article-title-section">
+        <h2 class="article-title">{{ summary.title }}</h2>
+        <div class="article-metadata">
+          <span class="metadata-item">
+            <span class="metadata-icon" aria-hidden="true">🆔</span>
+            Page ID: {{ summary.pageid }}
+          </span>
+          <span class="metadata-item">
+            <span class="metadata-icon" aria-hidden="true">🌍</span>
+            Language: {{ summary.lang.toUpperCase() }}
+          </span>
+          <span class="metadata-item" *ngIf="selectedArticle">
+            <span class="metadata-icon" aria-hidden="true">📅</span>
+            Last updated: {{ formatDate(selectedArticle.timestamp) }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Article Statistics -->
+    <div class="article-stats" *ngIf="selectedArticle">
+      <div class="stat-card">
+        <span class="stat-icon" aria-hidden="true">📄</span>
+        <div class="stat-content">
+          <span class="stat-value">{{ formatSize(selectedArticle.size) }}</span>
+          <span class="stat-label">Article Size</span>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <span class="stat-icon" aria-hidden="true">📝</span>
+        <div class="stat-content">
+          <span class="stat-value">{{ formatWordCount(selectedArticle.wordcount) }}</span>
+          <span class="stat-label">Word Count</span>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <span class="stat-icon" aria-hidden="true">🔗</span>
+        <div class="stat-content">
+          <span class="stat-value">#{{ selectedArticle.pageid }}</span>
+          <span class="stat-label">Page ID</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Article Extract -->
+    <div class="article-extract">
+      <h3 class="extract-title">Summary</h3>
+      <div class="extract-content">
+        <p class="extract-text">{{ summary.extract }}</p>
+      </div>
+    </div>
+
+    <!-- Original Search Result Info -->
+    <div class="search-result-info" *ngIf="selectedArticle">
+      <h3 class="info-title">Search Result Information</h3>
+      <div class="info-content">
+        <div class="info-item">
+          <span class="info-label">Search Snippet:</span>
+          <p class="info-value" [innerHTML]="selectedArticle.snippet"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button
+        type="button"
+        class="action-btn primary-btn"
+        (click)="openFullArticle(summary.pageid)"
+        [attr.aria-label]="'Read full article: ' + summary.title + ' on Wikipedia'"
+      >
+        <span class="btn-icon" aria-hidden="true">📖</span>
+        <span class="btn-text">Read Full Article</span>
+      </button>
+      
+      <button
+        type="button"
+        class="action-btn secondary-btn"
+        (click)="goBack()"
+        aria-label="Go back to search results"
+      >
+        <span class="btn-icon" aria-hidden="true">🔍</span>
+        <span class="btn-text">Back to Search</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- No Article Selected -->
+  <div class="no-article-section" *ngIf="!isLoading && !selectedArticle && !errorMessage">
+    <div class="no-article-card">
+      <span class="no-article-icon" aria-hidden="true">📄</span>
+      <h3 class="no-article-title">No Article Selected</h3>
+      <p class="no-article-message">
+        Please select an article from the search results to view its summary.
+      </p>
+      <button
+        type="button"
+        class="action-btn primary-btn"
+        (click)="goBack()"
+      >
+        <span class="btn-icon" aria-hidden="true">🔍</span>
+        <span class="btn-text">Go to Search</span>
+      </button>
+    </div>
+  </div>
+</div>

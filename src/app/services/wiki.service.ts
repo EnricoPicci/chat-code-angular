@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, map, catchError, throwError } from 'rxjs';
+import { Observable, map, catchError, throwError, BehaviorSubject } from 'rxjs';
 
 /**
  * Interface for Wikipedia search result item
@@ -32,6 +32,16 @@ export interface WikipediaApiResponse {
 export class WikiService {
   private readonly baseUrl = 'https://en.wikipedia.org/api/rest_v1';
   private readonly apiUrl = 'https://en.wikipedia.org/w/api.php';
+
+  /**
+   * BehaviorSubject to track the currently selected article
+   */
+  private selectedArticleSubject = new BehaviorSubject<WikipediaSearchResult | null>(null);
+
+  /**
+   * Observable for the currently selected article
+   */
+  public selectedArticle$ = this.selectedArticleSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -91,7 +101,6 @@ export class WikiService {
       })
     );
   }
-
   /**
    * Get random Wikipedia articles
    * @param count - Number of random articles to fetch (default: 1)
@@ -113,6 +122,29 @@ export class WikiService {
         return throwError(() => new Error('Failed to fetch random articles'));
       })
     );
+  }
+
+  /**
+   * Set the currently selected article
+   * @param article - The Wikipedia article to set as selected
+   */
+  setSelectedArticle(article: WikipediaSearchResult): void {
+    this.selectedArticleSubject.next(article);
+  }
+
+  /**
+   * Get the currently selected article (one-time value)
+   * @returns The currently selected article or null
+   */
+  getSelectedArticle(): WikipediaSearchResult | null {
+    return this.selectedArticleSubject.value;
+  }
+
+  /**
+   * Clear the currently selected article
+   */
+  clearSelectedArticle(): void {
+    this.selectedArticleSubject.next(null);
   }
 }
 

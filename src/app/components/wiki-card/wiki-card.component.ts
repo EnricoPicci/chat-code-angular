@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WikipediaSearchResult } from '../../services/wiki.service';
+import { Router } from '@angular/router';
+import { WikipediaSearchResult, WikiService } from '../../services/wiki.service';
 
 /**
  * Component to display a single Wikipedia article as a card
@@ -17,6 +18,11 @@ export class WikiCardComponent {
    * Wikipedia article data to display in the card
    */
   @Input({ required: true }) article!: WikipediaSearchResult;
+
+  constructor(
+    private router: Router,
+    private wikiService: WikiService
+  ) {}
 
   /**
    * Generate Wikipedia article URL from page ID
@@ -100,5 +106,14 @@ export class WikiCardComponent {
       return `${(size / 1024).toFixed(1)} KB`;
     }
     return `${size} bytes`;
+  }
+
+  /**
+   * Navigate to article summary page
+   * Sets the selected article in the service and navigates to summary
+   */
+  viewSummary(): void {
+    this.wikiService.setSelectedArticle(this.article);
+    this.router.navigate(['/summary']);
   }
 }
