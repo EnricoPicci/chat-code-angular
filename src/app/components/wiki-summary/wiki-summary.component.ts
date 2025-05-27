@@ -44,40 +44,64 @@ export class WikiSummaryComponent implements OnInit, OnDestroy {
     private wikiService: WikiService,
     private router: Router
   ) {}
-
   /**
    * Component initialization
    * Subscribe to selected article and fetch summary when available
-   */
-  ngOnInit(): void {
+   */  ngOnInit(): void {
     this.wikiService.selectedArticle$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (article: WikipediaSearchResult | null) => {
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((article: WikipediaSearchResult | null) => {
           this.selectedArticle = article;
           this.errorMessage = '';
+          this.summary = null;
           
           if (article) {
-            this.fetchSummary(article.title);
-          } 
-          else {
+            this.isLoading = true;
+            return this.wikiService.getArticleSummary(article.title)
+              .pipe(
+                takeUntil(this.destroy$), // Ensure inner observable also respects destroy
+                finalize(() => {
+                  this.isLoading = false;
+                })
+              );
+          } else {
             // No article selected, redirect to search page
             this.router.navigate(['/']);
+            // Return empty observable to complete the chain
+            return [];
           }
+        })
+      )
+      .subscribe({
+        next: (summaryData: WikipediaSummary) => {
+          this.summary = summaryData;
         },
         error: (error) => {
-          console.error('Error getting selected article:', error);
-          this.errorMessage = 'Error loading article data';
+          console.error('Error fetching article summary:', error);
+          this.errorMessage = 'Failed to load article summary. Please try again.';
+          this.summary = null;
+          this.isLoading = false;
         }
       });
   }
   /**
-   * Fetch article summary from Wikipedia API
+   * Navigate back to the search page
+   */
+  goBack(): void {
+    this.router.navigate(['/']);
+  }
+
+  /**
+   * Retry fetching the summary for the currently selected article
    * @param title - The article title to fetch summary for
    */
   fetchSummary(title: string): void {
+    if (!title || !this.selectedArticle) return;
+    
     this.isLoading = true;
     this.errorMessage = '';
+    this.summary = null;
 
     this.wikiService.getArticleSummary(title)
       .pipe(
@@ -96,13 +120,6 @@ export class WikiSummaryComponent implements OnInit, OnDestroy {
           this.summary = null;
         }
       });
-  }
-
-  /**
-   * Navigate back to the search page
-   */
-  goBack(): void {
-    this.router.navigate(['/']);
   }
 
   /**

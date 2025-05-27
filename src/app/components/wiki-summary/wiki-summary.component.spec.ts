@@ -323,22 +323,32 @@ describe('WikiSummaryComponent', () => {
       expect(component['destroy$'].next).toHaveBeenCalled();
       expect(component['destroy$'].complete).toHaveBeenCalled();
     });    it('should unsubscribe from observables on destroy', fakeAsync(() => {
-      component.ngOnInit();
-      
-      // Start a summary fetch that will complete after destroy
+      // Setup a delayed summary response
       const summarySubject = new Subject<WikipediaSummary>();
       mockWikiService.getArticleSummary.and.returnValue(summarySubject);
       
+      component.ngOnInit();
+      
+      // Trigger article selection which starts the summary fetch
       selectedArticleSubject.next(mockArticle);
       tick();
       
+      // Verify loading state is set and summary is null
+      expect(component.isLoading).toBe(true);
+      expect(component.summary).toBeNull();
+      
       // Destroy component before observable completes
       component.ngOnDestroy();
+      
+      // Try to emit summary data after component is destroyed
       summarySubject.next(mockSummary);
+      summarySubject.complete();
       tick();
 
       // Component state should not be updated after destruction
+      // Both the summary should remain null and loading should be reset by finalize
       expect(component.summary).toBeNull();
+      expect(component.isLoading).toBe(false);
     }));
   });
 
@@ -394,8 +404,7 @@ describe('WikiSummaryComponent', () => {
     });
   });
 
-  describe('Error Handling', () => {
-    it('should handle error in selected article subscription', fakeAsync(() => {
+  describe('Error Handling', () => {    it('should handle error in selected article subscription', fakeAsync(() => {
       spyOn(console, 'error');
       const errorSubject = new Subject<WikipediaSearchResult | null>();
       
@@ -408,12 +417,14 @@ describe('WikiSummaryComponent', () => {
       tick();
 
       expect(console.error).toHaveBeenCalled();
-      expect(component.errorMessage).toBe('Error loading article data');
-    }));    it('should set loading state correctly during summary fetch', fakeAsync(() => {
+      expect(component.errorMessage).toBe('Failed to load article summary. Please try again.');
+    }));it('should set loading state correctly during summary fetch', fakeAsync(() => {
       const summarySubject = new Subject<WikipediaSummary>();
       mockWikiService.getArticleSummary.and.returnValue(summarySubject);
 
-      component.fetchSummary('Test Article');
+      component.ngOnInit();
+      selectedArticleSubject.next(mockArticle);
+      tick();
 
       expect(component.isLoading).toBe(true);
       expect(component.errorMessage).toBe('');

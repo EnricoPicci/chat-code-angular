@@ -45,3 +45,5 @@ Since the mechanism to pass the selected article is reactive, there is no need t
 The Wikipedia summary interface should be moved to the WikiService class.
 Make sure that the tests of WikiService compile and work.
 
+### Fix subscription within subscription 
+this is not good rxJs idiomatic code since there is a subcription within a subscription. fix the code so that there is just one subscription through which, when selectedArticle$ notifies a new selected article, the fetchSummary logic is performed
