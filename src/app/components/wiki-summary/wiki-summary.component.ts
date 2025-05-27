@@ -2,44 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subject, takeUntil, switchMap, finalize } from 'rxjs';
-import { WikiService, WikipediaSearchResult } from '../../services/wiki.service';
-
-/**
- * Interface for Wikipedia article summary from REST API
- */
-interface WikipediaSummary {
-  type: string;
-  title: string;
-  displaytitle: string;
-  pageid: number;
-  extract: string;
-  extract_html: string;
-  thumbnail?: {
-    source: string;
-    width: number;
-    height: number;
-  };
-  originalimage?: {
-    source: string;
-    width: number;
-    height: number;
-  };
-  lang: string;
-  content_urls: {
-    desktop: {
-      page: string;
-      revisions: string;
-      edit: string;
-      talk: string;
-    };
-    mobile: {
-      page: string;
-      revisions: string;
-      edit: string;
-      talk: string;
-    };
-  };
-}
+import { WikiService, WikipediaSearchResult, WikipediaSummary } from '../../services/wiki.service';
 
 /**
  * Component that displays the detailed summary of a Wikipedia article

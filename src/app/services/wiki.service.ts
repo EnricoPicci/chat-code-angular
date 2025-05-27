@@ -24,6 +24,43 @@ export interface WikipediaApiResponse {
 }
 
 /**
+ * Interface for Wikipedia article summary from REST API
+ */
+export interface WikipediaSummary {
+  type: string;
+  title: string;
+  displaytitle: string;
+  pageid: number;
+  extract: string;
+  extract_html: string;
+  thumbnail?: {
+    source: string;
+    width: number;
+    height: number;
+  };
+  originalimage?: {
+    source: string;
+    width: number;
+    height: number;
+  };
+  lang: string;
+  content_urls: {
+    desktop: {
+      page: string;
+      revisions: string;
+      edit: string;
+      talk: string;
+    };
+    mobile: {
+      page: string;
+      revisions: string;
+      edit: string;
+      talk: string;
+    };
+  };
+}
+
+/**
  * Service to interact with Wikipedia API
  */
 @Injectable({
@@ -79,14 +116,13 @@ export class WikiService {
       })
     );
   }
-
   /**
    * Get a Wikipedia article summary by title
    * Uses the REST API v1 for better performance and structured data
    * @param title - The article title
    * @returns Observable with article summary
    */
-  getArticleSummary(title: string): Observable<any> {
+  getArticleSummary(title: string): Observable<WikipediaSummary> {
     if (!title || title.trim().length === 0) {
       return throwError(() => new Error('Article title cannot be empty'));
     }
@@ -94,7 +130,7 @@ export class WikiService {
     const encodedTitle = encodeURIComponent(title.trim());
     const url = `${this.baseUrl}/page/summary/${encodedTitle}`;
 
-    return this.http.get(url).pipe(
+    return this.http.get<WikipediaSummary>(url).pipe(
       catchError((error) => {
         console.error('Error fetching article summary:', error);
         return throwError(() => new Error('Failed to fetch article summary'));

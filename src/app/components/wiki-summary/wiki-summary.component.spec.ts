@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { Router } from '@angular/router';
 import { of, throwError, Subject, BehaviorSubject } from 'rxjs';
 import { WikiSummaryComponent } from './wiki-summary.component';
-import { WikiService, WikipediaSearchResult } from '../../services/wiki.service';
+import { WikiService, WikipediaSearchResult, WikipediaSummary } from '../../services/wiki.service';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
@@ -21,8 +21,7 @@ describe('WikiSummaryComponent', () => {
     wordcount: 3500,
     timestamp: '2023-12-15T10:30:00Z'
   };
-
-  const mockSummary = {
+  const mockSummary: WikipediaSummary = {
     type: 'standard',
     title: 'Angular (web framework)',
     displaytitle: 'Angular (web framework)',
@@ -323,13 +322,11 @@ describe('WikiSummaryComponent', () => {
 
       expect(component['destroy$'].next).toHaveBeenCalled();
       expect(component['destroy$'].complete).toHaveBeenCalled();
-    });
-
-    it('should unsubscribe from observables on destroy', fakeAsync(() => {
+    });    it('should unsubscribe from observables on destroy', fakeAsync(() => {
       component.ngOnInit();
       
       // Start a summary fetch that will complete after destroy
-      const summarySubject = new Subject();
+      const summarySubject = new Subject<WikipediaSummary>();
       mockWikiService.getArticleSummary.and.returnValue(summarySubject);
       
       selectedArticleSubject.next(mockArticle);
@@ -412,10 +409,8 @@ describe('WikiSummaryComponent', () => {
 
       expect(console.error).toHaveBeenCalled();
       expect(component.errorMessage).toBe('Error loading article data');
-    }));
-
-    it('should set loading state correctly during summary fetch', fakeAsync(() => {
-      const summarySubject = new Subject();
+    }));    it('should set loading state correctly during summary fetch', fakeAsync(() => {
+      const summarySubject = new Subject<WikipediaSummary>();
       mockWikiService.getArticleSummary.and.returnValue(summarySubject);
 
       component.fetchSummary('Test Article');

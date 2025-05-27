@@ -40,3 +40,8 @@ When the WikiSummary component is loaded, it should:
 - call the WikiService to fetch the summary of the article.
 - show the summary in the component.
 Since the mechanism to pass the selected article is reactive, there is no need to pass the article as a parameter to the WikiSummary using the router.
+
+### Fix where the WikipediaSummary interface is defined
+The Wikipedia summary interface should be moved to the WikiService class.
+Make sure that the tests of WikiService compile and work.
+
