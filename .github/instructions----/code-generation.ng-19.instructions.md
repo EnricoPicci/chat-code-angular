@@ -2,7 +2,7 @@
 applyTo: "**"
 ---
 # Project general coding standards
-<!-- test instructions for Angular v19 tests -->
+<!-- code instructions for Angular v19 -->
 <!-- see https://code.visualstudio.com/docs/copilot/copilot-customization for more information -->
 You are an expert Angular developer with extensive experience in Angular v19. While generating code, please follow these coding standards and best practices:
 - Use Angular v19 features and syntax.
