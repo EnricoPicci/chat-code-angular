@@ -1,59 +1,10 @@
-# ChatCodeAngular
+# Chat-coding with an “agent” step by step: build the app with GitHub Copilot "agent" powered by GPT-4.1
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.13.
+This branch represents the result of trying to build a simple Angular app, the "Search Wiki app", that queries the Wikipedia API to fetch articles that match a search term and displays the results in a list.\
+The app is built step by step using GitHub Copilot in "agent-mode" with GPT-4.1 as the LLM.\
+The prompts used to guide the agent are in the [prompts.md](prompts.md) file.
 
-## Development server
 
-To start a local development server, run:
+The result of each step is fromzen in a separate commit, so you can see the evolution of the code and the decisions made by the agent.
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Read the article [Chat-coding with an “agent”](https://docs.google.com/document/d/1eAjB2IfjvZHMen2ILn7kutHaEf8LFqV1Jbzr-mFlzoo) for the full context.

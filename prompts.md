@@ -1,5 +1,31 @@
 # Create the app that query the Wikipediat API to fetch articles that match a search term and show the results in a list.
-Generate an Angular app that queries the Wikipedia API to fetch articles that match a search term and displays the results in a list. 
-The app should have a search bar where users can enter a search term, and when they click the search button, it should call the Wikipedia API and display the results in a list format. Each item in the list should include the title of the article and a brief description. 
-The app should also handle errors gracefully and display an appropriate message if no results are found or if there is an error with the API call.
-Use Angular Material for the UI components and ensure that the app is responsive and works well on both desktop and mobile devices. The app should be structured in a modular way, with separate components for the search bar and the results list. Use best practices for Angular development, including services for API calls and observables for handling asynchronous data.
+
+# Use a step-by-step strategy
+
+## Step 1: Create WikiService
+
+Create WikiService and add to it a method that would serve as API to fetch the Wikipedia articles given a certain search term.
+Use the latest APIs provided by Wikipedia.
+Add also a test for this API. Do not use mocks for the test but use the real API.
+
+## Step 1.1: Add the fetch summary mewthod to the WikiService
+
+Add to WikiService a method that would serve as API to fetch the summary of a Wikipedia article given its title.
+Use the latest APIs provided by Wikipedia.
+Add also a test for this API. Do not use mocks for the test but use the real API.
+
+## Step 2: Create WikiCardComponent
+
+Create WikiCard component, which is a component that shows a single Wikipedia article as a card in the list. A Wikipedia article is an object described the the interface WikipediaSearchResult - it will be used by the WikiList component to build the grid of retrieved articles.
+
+## Step 3: Create WikiListComponent
+
+Create WikiList component, which is a component that shows a list of Wikipedia articles as cards.
+It will use the WikiCard component to show each article in the list.
+The component has a search field that allows the user to search for articles by a search term.
+The component has a button that allows the user to fetch the articles from the Wikipedia API.
+The click event of the button should call the WikiService to fetch the articles.
+
+## Step 4: set WikiListComponent as the main component loaded by the app at the start
+
+add WikiList as the page loaded at the start of the application
