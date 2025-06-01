@@ -1,0 +1,5 @@
+<div *ngIf="article" class="card">
+  <h3 class="card-title">{{ article.title }}</h3>
+  <div class="card-content" [innerHTML]="article.snippet"></div>
+  <p class="card-timestamp"><small>Last updated: {{ article.timestamp | date:'medium' }}</small></p>
+</div>
