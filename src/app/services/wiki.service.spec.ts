@@ -25,7 +25,7 @@ describe('WikiService', () => {
       next: response => {
         expect(response).toBeTruthy();
         expect(response.title).toBe('Angular (web framework)');
-        expect(response.extract).toBeDefined();
+        expect(response.extract).toBeDefined(); // Changed from snippet to extract
         done();
       },
       error: err => {

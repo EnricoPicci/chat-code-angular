@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { WikipediaSearchResult } from '../interfaces/wikipedia-search-result';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class WikiService {
 
   constructor(private http: HttpClient) { }
 
-  getArticleSummary(searchTerm: string): Observable<any> {
-    return this.http.get(`${this.WIKIPEDIA_API_URL}${encodeURIComponent(searchTerm)}`);
+  getArticleSummary(searchTerm: string): Observable<WikipediaSearchResult> {
+    return this.http.get<WikipediaSearchResult>(`${this.WIKIPEDIA_API_URL}${encodeURIComponent(searchTerm)}`);
   }
 }

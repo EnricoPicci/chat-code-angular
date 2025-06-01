@@ -11,7 +11,7 @@ describe('WikiCardComponent', () => {
   const mockArticle: WikipediaSearchResult = {
     pageid: 123,
     title: 'Test Article',
-    snippet: 'This is a <span class="searchmatch">test</span> snippet.',
+    extract: 'This is a <span class="searchmatch">test</span> extract.', // Changed from snippet to extract
     timestamp: '2024-05-30T10:00:00Z'
   };
 
@@ -38,8 +38,8 @@ describe('WikiCardComponent', () => {
     expect(titleElement.nativeElement.textContent).toBe(mockArticle.title);
 
     const contentElement = fixture.debugElement.query(By.css('.card-content'));
-    // Check innerHTML for the snippet as it contains HTML
-    expect(contentElement.nativeElement.innerHTML).toBe(mockArticle.snippet);
+    // Check innerHTML for the extract as it contains HTML
+    expect(contentElement.nativeElement.innerHTML).toBe(mockArticle.extract); // Changed from snippet to extract
 
     const timestampElement = fixture.debugElement.query(By.css('.card-timestamp small'));
     const datePipe = new DatePipe('en-US');
